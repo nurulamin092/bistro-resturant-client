@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
+import FoodCard from "../../../components/FoodCard/FoodCard";
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
-import ItemCard from "./ItemCard";
 
 const ChefRecommends = () => {
   const [menu, setMenu] = useState([]);
@@ -14,7 +14,7 @@ const ChefRecommends = () => {
       <SectionTitle subHeading={`should try`} heading={`Chef Recommends`} />
       <div className="grid md:grid-cols-3 gap-4">
         {menu.slice(0, 3).map((item) => (
-          <ItemCard key={item._id} item={item} />
+          <FoodCard key={item._id} item={item} />
         ))}
       </div>
     </section>

@@ -4,21 +4,32 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import useMenu from "../../../hooks/useMenu";
 import FoodCard from "../../../components/FoodCard/FoodCard";
+import OrderTab from "../OrderTab/OrderTab";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 const Order = () => {
+  const categories = ["salad", "pizza", "soup", "dessert", "drinks"];
+
+  const { category } = useParams();
+  const initialIndex = categories.indexOf(category);
+  const [tabIndex, setTabIndex] = useState(initialIndex);
   const [menu] = useMenu();
 
   const dessert = menu.filter((item) => item.category === "dessert");
   const salad = menu.filter((item) => item.category === "salad");
   const soup = menu.filter((item) => item.category === "soup");
   const pizza = menu.filter((item) => item.category === "pizza");
-  const offered = menu.filter((item) => item.category === "offered");
+  const drinks = menu.filter((item) => item.category === "drinks");
   return (
     <div>
+      <Helmet>
+        <title>Bistro | Order Food</title>
+      </Helmet>
       <Cover img={orderCoverImg} title={`Order Food`} />
-      <Tabs>
+      <Tabs defaultIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
         <TabList>
           <Tab>Salad</Tab>
-          <Tab>Title 2</Tab>
           <Tab>Pizza</Tab>
           <Tab>Soup</Tab>
           <Tab>Dessert</Tab>
@@ -26,22 +37,19 @@ const Order = () => {
         </TabList>
 
         <TabPanel>
-          <h2>
-            <div className="grid grid-cols-3 gap-3">
-              {salad.map((item) => (
-                <FoodCard key={item._id} item={item} />
-              ))}
-            </div>
-          </h2>
+          <OrderTab items={salad} />
         </TabPanel>
         <TabPanel>
-          <h2>Any content 2</h2>
+          <OrderTab items={pizza} />
         </TabPanel>
         <TabPanel>
-          <h2>Any content 1</h2>
+          <OrderTab items={soup} />
         </TabPanel>
         <TabPanel>
-          <h2>Any content 2</h2>
+          <OrderTab items={dessert} />
+        </TabPanel>
+        <TabPanel>
+          <OrderTab items={drinks} />
         </TabPanel>
       </Tabs>
     </div>
